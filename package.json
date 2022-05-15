@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-eslint/eslint-plugin": "^13.2.1",
     "@angular/animations": "^14.0.0-next.0",
     "@angular/common": "^14.0.0-next.0",
     "@angular/compiler": "^14.0.0-next.0",

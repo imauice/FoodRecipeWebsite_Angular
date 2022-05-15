@@ -9,7 +9,7 @@ export class HeaderComponent {
   constructor(private dataStroageService: DataStorageService) {}
 
   onSaveData() {
-    this.dataStroageService.stroreRecipes();
+    this.dataStroageService.storeRecipes();
   }
 
   onFetchdata() {
