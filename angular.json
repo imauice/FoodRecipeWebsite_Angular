@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FoodOrderWebsite": {
+    "FoodRecipeWebsite": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FoodOrderWebsite:build:production"
+              "browserTarget": "FoodRecipeWebsite:build:production"
             },
             "development": {
-              "browserTarget": "FoodOrderWebsite:build:development"
+              "browserTarget": "FoodRecipeWebsite:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FoodOrderWebsite:build"
+            "browserTarget": "FoodRecipeWebsite:build"
           }
         },
         "test": {
@@ -102,5 +102,5 @@
       }
     }
   },
-  "defaultProject": "FoodOrderWebsite"
+  "defaultProject": "FoodRecipeWebsite"
 }
