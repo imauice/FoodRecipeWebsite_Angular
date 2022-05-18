@@ -28,14 +28,14 @@ export class AuthComponent {
     this.isLoading = true;
 
     if (!this.isLoginMode) {
-      this.authService.signup(email, password);
+      authObs = this.authService.signup(email, password);
     } else {
-      this.authService.login(email, password);
+      authObs = this.authService.login(email, password);
     }
     authObs.subscribe(
       (resData) => {
-        this.isLoading = false;
         console.log(resData);
+        this.isLoading = false;
       },
       (errorMessage) => {
         console.log(errorMessage);
