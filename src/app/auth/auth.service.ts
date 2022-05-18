@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
-import { Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 export interface AuthResponceData {
   idToken: string; //A Firebase Auth ID token for the newly created user.
@@ -17,8 +18,11 @@ export interface AuthResponceData {
   providedIn: 'root',
 })
 export class AuthService {
-  user = new Subject<User>();
-  constructor(private http: HttpClient) {}
+  user = new BehaviorSubject<User>(null);
+
+  constructor(
+    private http: HttpClient,
+    private router:Router) {}
 
   signup(email: string, password: string) {
     return this.http
@@ -64,6 +68,11 @@ export class AuthService {
           );
         })
       );
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private handleAuthentication(
