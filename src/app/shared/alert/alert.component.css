@@ -1,0 +1,39 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vw;
+    background: rgba(0, 0, 0, 0.50);
+    z-index: 50;
+}
+
+.alert-box {
+    position: fixed;
+    border-radius: 5px;
+    top: 15vw;
+    left: 25vw;
+    width: 50vw;
+    padding: 16px;
+    z-index: 100;
+    background: rgb(238, 234, 232);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.alert-box-actions {
+    text-align: right;
+}
+
+.close {
+    color: #b92727;
+    float: right;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
