@@ -99,7 +99,6 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
-    // localStorage.removeItem('userData');
     localStorage.clear();
     if(this.tokenExpirationTimer){
       clearTimeout(this.tokenExpirationTimer);
@@ -122,7 +121,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 10000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
-    this.autoLogout(expiresIn*1000);
+    this.autoLogout(expiresIn*10000);
     localStorage.setItem('userData',JSON.stringify(user));
   }
 
@@ -139,7 +138,7 @@ export class AuthService {
         errorMessage = ' Email does not exist ! ';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'Password is not correct ! ';
+        errorMessage = ' Password is not correct ! ';
         break;
     }
     return throwError(errorMessage);
