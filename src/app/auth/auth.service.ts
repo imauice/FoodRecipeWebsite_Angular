@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import {environment} from '../../environments/environment';
 
 export interface AuthResponceData {
   idToken: string; //A Firebase Auth ID token for the newly created user.
@@ -28,7 +29,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponceData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD6pjJ-aeLuJgdLEi_vz2qSPtY8EoIcCHw',
+        environment.fireBaseSignUp,
         {
           email: email,
           password: password,
@@ -51,7 +52,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponceData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD6pjJ-aeLuJgdLEi_vz2qSPtY8EoIcCHw',
+        environment.fireBaseSignin,
         {
           email: email,
           password: password,

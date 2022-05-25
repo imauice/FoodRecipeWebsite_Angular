@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  fireBaseApiKey: 'AIzaSyD6pjJ-aeLuJgdLEi_vz2qSPtY8EoIcCHw',
+  fireBaseSignUp: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD6pjJ-aeLuJgdLEi_vz2qSPtY8EoIcCHw',
+  fireBaseSignin:'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD6pjJ-aeLuJgdLEi_vz2qSPtY8EoIcCHw',
 };
 
 /*
