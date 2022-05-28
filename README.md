@@ -1,8 +1,11 @@
 # FoodRecipeWebsite
 
 <br>
-You can check out here : [Food Recipe Book](https://food-recipe-book-5c80e.firebaseapp.com/auth)
-[![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)]
+You can check out here : 
+[Food Recipe Book](https://food-recipe-book-5c80e.firebaseapp.com/auth)
+
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+
 <br>
   
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0-next.4.
