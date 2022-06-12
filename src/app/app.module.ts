@@ -17,6 +17,9 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
 import { authReducer } from './auth/store/auth.reducer';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effcts';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -30,13 +33,19 @@ import { AuthEffects } from './auth/store/auth.effcts';
     CoreModule,
     StoreModule.forRoot({
       shoppingList: shoppingListReducer,
-      auth:authReducer
+      auth: authReducer,
     }),
     AuthModule,
     RecipesModule,
     ShopingListModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects]),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production
+    }),
+    StoreRouterConnectingModule.forRoot(),
+    SharedModule,
+    CoreModule
   ],
   bootstrap: [AppComponent],
   // providers: [LoggingService]
