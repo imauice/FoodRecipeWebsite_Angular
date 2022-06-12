@@ -1,27 +1,26 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
-import { BehaviorSubject, throwError } from 'rxjs';
-import { User } from './user.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as formApp from '../store/app.reducer';
-import * as AuthActions from './store/auth.actions'
+import { environment } from '../../environments/environment';
 
-export interface AuthResponceData {
+import { User } from './user.model';
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
 
-  idToken: string; //A Firebase Auth ID token for the newly created user.
-  email: string; //The email for the newly created user.
-  refreshToken: string; //A Firebase Auth refresh token for the newly created user.
-  expiresIn: string; //The number of seconds in which the ID token expires.
-  localId: string; //The uid of the newly created user
-  registered?: boolean; //Whether the email is for an existing account.
+export interface AuthResponseData {
+  kind: string;
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+  registered?: boolean;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
@@ -29,18 +28,16 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private store: Store<formApp.AppState>) { }
+    private store: Store<fromApp.AppState>
+  ) {}
 
   signup(email: string, password: string) {
     return this.http
-      .post<AuthResponceData>(
-        environment.fireBaseSignUp,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
+      .post<AuthResponseData>(environment.fireBaseSignUp, {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      })
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
@@ -56,14 +53,11 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http
-      .post<AuthResponceData>(
-        environment.fireBaseSignin,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }
-      )
+      .post<AuthResponseData>(environment.fireBaseSignin, {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      })
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
@@ -82,42 +76,41 @@ export class AuthService {
       email: string;
       id: string;
       _token: string;
-      _tokenExpirationData: string
+      _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) {
       return;
     }
+
     const loadedUser = new User(
       userData.email,
       userData.id,
       userData._token,
-      new Date(userData._tokenExpirationData)
+      new Date(userData._tokenExpirationDate)
     );
+
     if (loadedUser.token) {
-      //this.user.next(loadedUser);
+      // this.user.next(loadedUser);
       this.store.dispatch(
         new AuthActions.Login({
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
-          expirationTime: new Date(userData._tokenExpirationData)
+          expirationDate: new Date(userData._tokenExpirationDate),
         })
-      )
-      
-      const expirationDuration = new Date(userData._tokenExpirationData)
-        .getTime() - new Date().getTime();
+      );
+      const expirationDuration =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
       this.autoLogout(expirationDuration);
-
     }
   }
 
   logout() {
-    //this.user.next(null);
-    this.store.dispatch(
-      new AuthActions.Logout()
-    )
+    // this.user.next(null);
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
-    localStorage.clear();
+    localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -125,9 +118,9 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number) {
-    setTimeout(() => {
+    this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
-    }, expirationDuration)
+    }, expirationDuration);
   }
 
   private handleAuthentication(
@@ -136,35 +129,35 @@ export class AuthService {
     token: string,
     expiresIn: number
   ) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 10000);
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    // this.user.next(user);
     const user = new User(email, userId, token, expirationDate);
-    //this.user.next(user);
     this.store.dispatch(
       new AuthActions.Login({
-        email:email,
-        userId:userId,
-        token:token,
-        expirationTime:expirationDate
+        email: email,
+        userId: userId,
+        token: token,
+        expirationDate: expirationDate,
       })
-    )
-    this.autoLogout(expiresIn * 10000);
+    );
+    this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An Error Ocured';
+    let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
-        errorMessage = ' Email is already Exsists ! ';
+        errorMessage = 'This email exists already';
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = ' Email does not exist ! ';
+        errorMessage = 'This email does not exist.';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = ' Password is not correct ! ';
+        errorMessage = 'This password is not correct.';
         break;
     }
     return throwError(errorMessage);
