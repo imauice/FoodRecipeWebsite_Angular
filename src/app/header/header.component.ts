@@ -7,6 +7,7 @@ import { DataStorageService } from '../shared/data-storage.service';
 import { AuthService } from '../auth/auth.service';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
+import * as RecipeActions from '../recipes/store/recipe.actions';
 
 @Component({
   selector: 'app-header',
@@ -28,8 +29,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(map(authState => authState.user))
       .subscribe(user => {
         this.isAuthenticated = !!user;
-        console.log(!user);
-        console.log(!!user);
+        // console.log(!user);
+        // console.log(!!user);
       });
   }
 
@@ -38,7 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onFetchData() {
-    this.dataStorageService.fetchRecipes().subscribe();
+    // this.dataStorageService.fetchRecipes().subscribe();
+    this.store.dispatch(new RecipeActions.FetchRecipes());
   }
 
   onLogout() {
