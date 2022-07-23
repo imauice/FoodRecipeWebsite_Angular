@@ -25,6 +25,7 @@
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.2.0",
     "bootstrap": "^3.4.1",
+    "firebase-tools": "^11.3.0",
     "rxjs": "^6.6.7",
     "rxjs-compat": "^6.6.7",
     "tslib": "^2.3.0",
