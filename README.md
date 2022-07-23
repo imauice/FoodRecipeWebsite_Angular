@@ -1,8 +1,6 @@
 # FoodRecipeWebsite
 
-You can check out here :
-
-[![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)](https://food-recipe-book-5c80e.firebaseapp.com/auth)
+## You can check out here : (https://food-recipe-book-5c80e.web.app/auth)
 
 <br>
   
